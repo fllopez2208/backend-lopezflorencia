@@ -24,10 +24,26 @@ app.get('/products', async (req, res) => {
   }
 });
 
-app.get('/products/:id', async(req, res) => {
-    const productId = await productManager.getProductById(req.params.id)
-    res.send(productId)
+app.get('/products/:id', async (req, res) => {
+  const productId = parseInt(req.params.id);
+
+  if (isNaN(productId)) {
+    
+    res.status(400).send('El parámetro id debe ser un número válido');
+    return;
+  }
+
+  const product = await productManager.getProductById(productId);
+
+  if (!product) {
+   
+    res.status(404).send('Producto no encontrado');
+  } else {
+    
+    res.send(product);
+  }
 })
+
 
 app.listen (8080, () => {
   console.log(`Servidor Express escuchando en el puerto 8080`);
