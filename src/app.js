@@ -1,9 +1,14 @@
 import express from 'express';
-
+import path from 'path';
 import ProductManager from './ProductManager.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
-const productManager = new ProductManager('./products.json');
+const productManager = new ProductManager(path.join(__dirname,'./products.json'));
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
