@@ -1,7 +1,6 @@
 import fs from 'fs';
 
 
-
 class ProductManager {
   constructor(path) {
     this.path = path;
@@ -16,10 +15,11 @@ class ProductManager {
     if (!title || !description || !price || !thumbnail || !code || !stock) {
       throw new Error('Todos los campos son obligatorios.');
     }
-    //const existingProduct = products.find((p) => p.code === code);
-    //if (existingProduct) {
-    //throw new Error(`Ya existe un producto con el código ${code}.`);
-    //}
+    
+    const existingProduct = products.find((p) => p.code === code);
+    if (existingProduct) {
+    throw new Error(`Ya existe un producto con el código ${code}.`);
+    }
 
     const id = this.generateUniqueId(products);
     const newProduct = { id, title, description, price, thumbnail, code, stock };
