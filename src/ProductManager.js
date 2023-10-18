@@ -81,6 +81,7 @@ class ProductManager {
     const products = await this.getProducts();
     const updatedProducts = products.filter((product) => product.id !== id);
     await this.saveProducts(updatedProducts);
+    return updatedProducts;
   }
 
   async readProductsFile() {

@@ -46,7 +46,7 @@
         });
 
         function deleteProduct(id) {
-            socket.emit('deleteProduct', id);
+        socket.emit('deleteProduct', id);
         }
 
         socket.on('productUpdate', function(products) {
