@@ -30,7 +30,7 @@ function saveCartsToFile(carts) {
     fs.writeFileSync(cartsFilePath, JSON.stringify(carts, null, 2));
 }
 
-CartRouter.post('/cart', (req, res) => {
+CartRouter.post('/carts', (req, res) => {
     const carts = getCartsFromFile();
     const cartId = generateUniqueId();
 
@@ -45,7 +45,7 @@ CartRouter.post('/cart', (req, res) => {
     res.status(201).json(carts[cartId]);
 });
 
-CartRouter.get('/cart/:cid', (req, res) => {
+CartRouter.get('/carts/:cid', (req, res) => {
     const cartId = req.params.cid;
     const carts = getCartsFromFile();
     const cart = carts[cartId];
@@ -57,7 +57,7 @@ CartRouter.get('/cart/:cid', (req, res) => {
     }
 });
 
-CartRouter.post('/cart/:cid/product/:pid', (req, res) => {
+CartRouter.post('/carts/:cid/product/:pid', (req, res) => {
     const cartId = req.params.cid;
     const productId = req.params.pid;
     const quantity = 1;

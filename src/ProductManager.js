@@ -12,9 +12,9 @@ class ProductManager {
 
     let products = await this.getProducts()
 
-    if (!title || !description || !price || !thumbnail || !code || !stock) {
-      throw new Error('Todos los campos son obligatorios.');
-    }
+    //if (!title || !description || !price || !thumbnail || !code || !stock) {
+    //  throw new Error('Todos los campos son obligatorios.');
+    //}
     
     const existingProduct = products.find((p) => p.code === code);
     if (existingProduct) {

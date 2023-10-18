@@ -1,0 +1,18 @@
+[
+	{
+		"id": 1,
+		"title": "Producto prueba22",
+		"description": "A ver si funciona",
+		"price": "456",
+		"code": "78945612",
+		"stock": "25"
+	},
+	{
+		"id": 2,
+		"title": "45",
+		"description": "sdjsfk",
+		"price": "5656",
+		"code": "5656565",
+		"stock": "25"
+	}
+]
