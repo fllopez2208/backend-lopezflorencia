@@ -2,15 +2,13 @@
 <html>
 <head>
     <title>Productos en Tiempo Real</title>
-    <style>
-        /* Estilos CSS aquí */
-    </style>
+    
 </head>
 <body>
     <h1>Listado de Productos en Tiempo Real</h1>
     <ul id="product-list">
         {{#each products}}
-            <li id="product-{{this.id}}">
+            <li>
                 <h2>ID: {{this.id}} - {{this.title}}</h2>
                 <p><strong>Descripción:</strong> {{this.description}}</p>
                 <p><strong>Precio:</strong> {{this.price}}</p>
@@ -21,6 +19,7 @@
         {{/each}}
     </ul>
 
+    
     <form id="product-form">
         <input type="text" name="title" placeholder="Título" required>
         <input type="text" name="description" placeholder="Descripción" required>
@@ -30,6 +29,7 @@
         <button type="submit">Agregar Producto</button>
     </form>
 
+    
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
@@ -46,8 +46,6 @@
         });
 
         function deleteProduct(id) {
-            const productElement = document.getElementById('product-' + id);
-            productElement.style.display = 'none';
             socket.emit('deleteProduct', id);
         }
 
@@ -55,17 +53,14 @@
             const productList = document.getElementById('product-list');
             productList.innerHTML = '';
             products.forEach(function(product) {
-                if (document.getElementById('product-' + product.id) !== null) {
-                    const item = document.createElement('li');
-                    item.id = 'product-' + product.id;
-                    item.innerHTML = `<h2>ID: ${product.id} - ${product.title}</h2>
-                                     <p><strong>Descripción:</strong> ${product.description}</p>
-                                     <p><strong>Precio:</strong> ${product.price}</p>
-                                     <p><strong>Código:</strong> ${product.code}</p>
-                                     <p><strong>Stock:</strong> ${product.stock}</p>
-                                     <button onclick="deleteProduct('${product.id}')">Eliminar</button>`;
-                    productList.appendChild(item);
-                }
+                const item = document.createElement('li');
+                item.innerHTML = `<h2>ID: ${product.id} - ${product.title}</h2>
+                                 <p><strong>Descripción:</strong> ${product.description}</p>
+                                 <p><strong>Precio:</strong> ${product.price}</p>
+                                 <p><strong>Código:</strong> ${product.code}</p>
+                                 <p><strong>Stock:</strong> ${product.stock}</p>
+                                 <button onclick="deleteProduct('${product.id}')">Eliminar</button>`;
+                productList.appendChild(item);
             });
         });
     </script>
