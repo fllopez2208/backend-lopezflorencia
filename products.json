@@ -1,13 +1,5 @@
 [
   {
-    "id": 1,
-    "title": "Producto prueba22",
-    "description": "A ver si funciona",
-    "price": "456",
-    "code": "78945612",
-    "stock": "25"
-  },
-  {
     "id": 2,
     "title": "45",
     "description": "sdjsfk",
@@ -62,13 +54,5 @@
     "price": "456",
     "code": "555",
     "stock": "22"
-  },
-  {
-    "id": 9,
-    "title": "jfskjfskd",
-    "description": "jkfjkafjl",
-    "price": "5464",
-    "code": "45646",
-    "stock": "456"
   }
 ]

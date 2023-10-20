@@ -1,16 +1,12 @@
 import { Router } from "express";
 import path from 'path';
+import __dirname from '../utils.js';
 import ProductManager from '../ProductManager.js';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-
-const __dirname = dirname(__filename);
+const productManager = new ProductManager(path.join(__dirname, '../products.json'));
 
 const Productsrouters = Router();
 
-const productManager = new ProductManager(path.join(__dirname,'../products.json'));
 
 function generateUniqueId(products) {
     let newId;

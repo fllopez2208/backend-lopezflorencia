@@ -26,9 +26,10 @@ io.on('connection', (socket) => {
 
   socket.on('deleteProduct', async (id) => {
     try {
-      await productManager.deleteProduct(id);
-      const updatedProducts = await productManager.getProducts();
-      io.emit('productUpdate', updatedProducts);
+      let idParsed = parseInt(id);
+      const updatedProducts = await productManager.deleteProduct(idParsed);
+      console.log(updatedProducts, "updated")
+      socket.emit('productUpdate', updatedProducts);
     } catch (error) {
       console.error('Error deleting product:', error);
     }
