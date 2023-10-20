@@ -1,3 +1,6 @@
+import io from 'socket.io-client';
+
+
 (function() {
     const socket = io();
     socket.emit('message', 'Hola backend desde el cliente web via socket.io 🎯');

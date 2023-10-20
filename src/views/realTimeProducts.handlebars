@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Productos en Tiempo Real</title>
-    
 </head>
 <body>
     <h1>Listado de Productos en Tiempo Real</h1>
@@ -19,35 +18,18 @@
         {{/each}}
     </ul>
 
-    
-    <form id="product-form">
-        <input type="text" name="title" placeholder="Título" required>
-        <input type="text" name="description" placeholder="Descripción" required>
-        <input type="number" name="price" placeholder="Precio" required>
-        <input type="text" name="code" placeholder="Código" required>
-        <input type="number" name="stock" placeholder="Stock" required>
-        <button type="submit">Agregar Producto</button>
+    <form id="product-form" onsubmit="event.preventDefault(); addProduct()">
+        <input id="title" type="text" name="title" required placeholder="Nombre del producto">
+        <input id="description" type="text" name="description" required placeholder="Ingrese una breve descripción del producto">
+        <input id="price" type="number" name="price" required placeholder="Precio">
+        <input id="code" type="text" name="code" required placeholder="Código">
+        <input id="stock" type="number" name="stock" required placeholder="Stock">
+        <button type="submit" value="addProduct">Agregar Producto</button>
     </form>
 
-    
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-
-        document.getElementById('product-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-            socket.emit('newProduct', data);
-            this.reset();
-        });
-
-        function deleteProduct(id) {
-        socket.emit('deleteProduct', id);
-        }
 
         socket.on('productUpdate', function(products) {
             const productList = document.getElementById('product-list');
@@ -63,6 +45,21 @@
                 productList.appendChild(item);
             });
         });
+
+        function addProduct() {
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const price = document.getElementById('price').value;
+            const code = document.getElementById('code').value;
+            const stock = document.getElementById('stock').value;
+            const data = { title, description, price, code, stock };
+            socket.emit('newProduct', data);
+            document.getElementById('product-form').reset();
+        }
+
+        function deleteProduct(id) {
+            socket.emit('deleteProduct', id);
+        }
     </script>
 </body>
 </html>
