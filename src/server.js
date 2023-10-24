@@ -9,7 +9,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 const PORT = 8080;
 
-const productManager = new ProductManager(path.join(__dirname,'../products.json'));
+const productManager = new ProductManager(path.join(__dirname,'./products.json'));
 
 io.on('connection', (socket) => {
   console.log('New client connected 🎉', socket.id);
