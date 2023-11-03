@@ -1,26 +1,26 @@
 [
   {
-    "id": 2,
-    "title": "45",
-    "description": "sdjsfk",
-    "price": "5656",
-    "code": "5656565",
-    "stock": "25"
-  },
-  {
-    "id": 4,
-    "title": "sdfsd",
-    "description": "sfs",
-    "price": "45",
-    "code": "4546",
-    "stock": "45"
-  },
-  {
     "id": 5,
     "title": "dsfsf",
     "description": "sdfsf",
     "price": "456454646",
     "code": "455645646",
     "stock": "454"
+  },
+  {
+    "id": 6,
+    "title": "producto prueba",
+    "description": "Este es un producto prueba",
+    "price": "450",
+    "code": "1s2d2f56",
+    "stock": "25"
+  },
+  {
+    "id": 7,
+    "title": "Producto prueba 3",
+    "description": "skdkadsnjgnie",
+    "price": "456465",
+    "code": "78888",
+    "stock": "260"
   }
 ]
