@@ -26,23 +26,24 @@ class ProductsManager {
 
     static async updateById(_id, data) {
         const product = await productsModels.findById(_id);
-        if(!product) {
+        if (!product) {
             throw new Exception('No existe el producto', 404);
         }
         const operation = { $set: data };
-        await productsModels.updateOne(_id, operation);
+        await productsModels.updateOne({ _id: product._id }, operation);
         console.log('Producto actualizado con éxito');
     }
-
+    
     static async deleteById(_id) {
         const product = await productsModels.findById(_id);
-        if(!product) {
+        if (!product) {
             throw new Exception('No existe el producto', 404);
         }
-
-        await productsModels.deleteOne(_id);
+    
+        await productsModels.deleteOne({ _id: product._id }); 
         console.log('Producto eliminado correctamente.');
     }
+    
 }
 
 export default ProductsManager;

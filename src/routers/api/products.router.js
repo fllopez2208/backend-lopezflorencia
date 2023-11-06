@@ -28,27 +28,26 @@ Productsrouters.post('/products', async (req, res)=> {
 });
 
 
-Productsrouters.put('/products/:_id', async (req, res)=> {
+Productsrouters.put('/products/:_id', async (req, res) => {
     try {
-        const { params:  { _id }, body } = req;
-        await ProductsManager.updateById(_id, body)
+        const { params: { _id }, body } = req;
+        await ProductsManager.updateById(_id, body);
         res.status(204).end();
     } catch (error) {
-        res.status(error.statusCode || 500).json({message: error.message});
+        res.status(error.statusCode || 500).json({ message: error.message });
     }
-    
 });
 
-Productsrouters.delete('/products/:_id', async (req, res)=> {
+Productsrouters.delete('/products/:_id', async (req, res) => {
     try {
-        const { params:  { _id } } = req;
-        await ProductsManager.deleteById(_id)
-        res.status(200).json(products);
+        const { params: { _id } } = req;
+        await ProductsManager.deleteById(_id);
+        res.status(200).json({ message: 'Producto eliminado correctamente' });
     } catch (error) {
-        res.status(error.statusCode || 500).json({message: error.message});
+        res.status(error.statusCode || 500).json({ message: error.message });
     }
-    
 });
+
 
 
 // function generateUniqueId(products) {
