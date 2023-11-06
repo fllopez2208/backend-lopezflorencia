@@ -10,10 +10,10 @@ Productsrouters.get('/products', async (req, res)=> {
     res.status(200).json(products);
 });
 
-Productsrouters.get('/products/:sid', async (req, res)=> {
+Productsrouters.get('/products/:_id', async (req, res)=> {
     try {
-        const { params:  { sid } } = req;
-        const products = await ProductsManager.getById(sid)
+        const { params:  { _id } } = req;
+        const products = await ProductsManager.getById(_id)
         res.status(200).json(products);
     } catch (error) {
         res.status(error.statusCode || 500).json({message: error.message});
@@ -28,10 +28,10 @@ Productsrouters.post('/products', async (req, res)=> {
 });
 
 
-Productsrouters.put('/products/:sid', async (req, res)=> {
+Productsrouters.put('/products/:_id', async (req, res)=> {
     try {
-        const { params:  { sid }, body } = req;
-        await ProductsManager.updateById(sid, body)
+        const { params:  { _id }, body } = req;
+        await ProductsManager.updateById(_id, body)
         res.status(204).end();
     } catch (error) {
         res.status(error.statusCode || 500).json({message: error.message});
@@ -39,10 +39,10 @@ Productsrouters.put('/products/:sid', async (req, res)=> {
     
 });
 
-Productsrouters.delete('/products/:sid', async (req, res)=> {
+Productsrouters.delete('/products/:_id', async (req, res)=> {
     try {
-        const { params:  { sid } } = req;
-        await ProductsManager.deleteById(sid)
+        const { params:  { _id } } = req;
+        await ProductsManager.deleteById(_id)
         res.status(200).json(products);
     } catch (error) {
         res.status(error.statusCode || 500).json({message: error.message});

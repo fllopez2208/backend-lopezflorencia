@@ -1,6 +1,7 @@
 <h1>Productos</h1>
 <table id="main">
     <tr>
+        <th>ID:</th>
        <th>Titulo:</th>
        <th>Descripción:</th> 
        <th>Precio:</th> 
@@ -9,6 +10,7 @@
     </tr>
     {{#each products}}
     <tr> 
+        <td>{{this._id}}</td>
         <td>{{this.title}}</td>
         <td>{{this.description}}</td>
         <td>{{this.price}}</td>

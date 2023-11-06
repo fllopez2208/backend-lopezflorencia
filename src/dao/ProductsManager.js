@@ -10,8 +10,8 @@ class ProductsManager {
         return productsModels.find(criteria);
     }
 
-    static async getById(sid) {
-        const product = await productsModels.findById(sid);
+    static async getById(_id) {
+        const product = await productsModels.findById(_id);
         if(!product) {
             throw new Exception('No existe el producto', 404);
         }
@@ -24,24 +24,23 @@ class ProductsManager {
         return product;
     }   
 
-    static async updateById(sid, data) {
-        const product = await productsModels.findById(sid);
+    static async updateById(_id, data) {
+        const product = await productsModels.findById(_id);
         if(!product) {
             throw new Exception('No existe el producto', 404);
         }
-        const criteria = { _id: sid };
         const operation = { $set: data };
-        await productsModels.updateOne(criteria, operation);
+        await productsModels.updateOne(_id, operation);
         console.log('Producto actualizado con éxito');
     }
 
-    static async deleteById(sid) {
-        const product = await productsModels.findById(sid);
+    static async deleteById(_id) {
+        const product = await productsModels.findById(_id);
         if(!product) {
             throw new Exception('No existe el producto', 404);
         }
-        const criteria = { _id: sid };
-        await productsModels.deleteOne(criteria);
+
+        await productsModels.deleteOne(_id);
         console.log('Producto eliminado correctamente.');
     }
 }
