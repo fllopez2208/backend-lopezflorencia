@@ -25,7 +25,7 @@ CartsRouter.post('/carts', async (req, res) => {
 CartsRouter.get('/carts/:_id', async (req, res) => {
     try {
         const { params: { _id } } = req;
-        const cart = await CartsManager.getCartWithDetails(_id);
+        const cart = await CartsManager.getCartProductDetails(_id);
         res.status(200).json(cart);
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });

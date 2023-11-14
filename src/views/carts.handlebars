@@ -1,15 +1,17 @@
 <article>
-    <h1>Carrito:</h1>
     {{#each carts}}
+    <h1>Carrito:</h1>
+    
         <table id="main">
             <tr>
                 <th>ID del Carrito:</th>
                 <th>Id del producto:</th>
                 <th>Cantidad:</th> 
             </tr>
+            
             <tr> 
                 <td>{{this._id}}</td>
-                <td>{{this.productId}}</td>
+                <td>{{this.product.productId}}</td>
                 <td>{{this.quantity}}</td>
                 <td>
                     <form action="/api/carts/{{this._id}}/{{this.productId}}" method="PUT">
@@ -27,4 +29,3 @@
         </form>
     {{/each}}
 </article>
-

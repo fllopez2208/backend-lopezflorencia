@@ -3,18 +3,24 @@ import { Exception } from '../utils.js';
 
 class CartsManager {
 
-    static async getCartWithDetails(_id) {
-        const cart = await CartModel.findById(_id).populate('products');
-        if (!cart) {
-            throw new Exception('No existe el carrito', 404);
-        }
-        return cart;
-    }
-
     static async getAllCarts() {
-        const carts = await CartModel.find().populate('products');
-        return carts;
+        const carts = await CartModel.find().populate('products.product');
+        return carts.map(cart => ({
+            _id: cart._id,
+            products: cart.products.map(productInCart => ({
+                productId: productInCart.product._id,
+                title: productInCart.product.title,
+                description: productInCart.product.description,
+                price: productInCart.product.price,
+                code: productInCart.product.code,
+                stock: productInCart.product.stock,
+                quantity: productInCart.quantity,
+            })),
+        }));
     }
+    
+    
+
 
     static async addToCart(cartData) {
         const cart = await CartModel.create(cartData);
@@ -74,6 +80,38 @@ class CartsManager {
         console.log('Carrito eliminado correctamente.');
         return cart;
     }
+
+    
+
+    
+
+    static async getCartProductDetails(_id) {
+            const cart = await CartModel.findById(_id).populate({
+                path: 'products.product',
+                model: 'products',
+            });
+            if (!cart) {
+                throw new Exception('No existe el carrito', 404);
+            }
+
+            const cartDetails = {
+                _id: cart._id,
+                products: cart.products.map(productInCart => ({
+                    productId: productInCart.product._id,
+                    title: productInCart.product.title,
+                    description: productInCart.product.description,
+                    price: productInCart.product.price,
+                    code: productInCart.product.code,
+                    stock: productInCart.product.stock,
+                    quantity: productInCart.quantity,
+                })),
+            };
+
+            return cartDetails;
+    }
+
+
+
 }
 
 export default CartsManager;
