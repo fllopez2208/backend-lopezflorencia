@@ -5,6 +5,8 @@ import handlebars from 'express-handlebars';
 import ProductsRouters from './routers/api/Products.router.js';
 import ProductsViewsrouters from './routers/views/products.routers.js';
 import CartsRouter from './routers/api/Carts.router.js';
+import CartsViewsrouters from './routers/views/carts.router.js';
+
 
 const app = express();
 
@@ -25,6 +27,8 @@ app.get('/', (req, res) => {
 app.use('/api', ProductsRouters);
 app.use('/', ProductsViewsrouters);
 app.use('/api', CartsRouter);
+app.use('/', CartsViewsrouters);
+
 
 app.use((error, req, res, next) => {
     const message = `Ha ocurrido un error inesperado: ${error.message}`

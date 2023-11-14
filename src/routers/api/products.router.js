@@ -1,5 +1,6 @@
 import { Router } from "express";
 import ProductsManager from "../../dao/ProductsManager.js";
+import productsModels from "../../models/products.models.js";
 
 
 const Productsrouters = Router();
@@ -9,6 +10,31 @@ Productsrouters.get('/products', async (req, res)=> {
     const products = await ProductsManager.get(query)
     res.status(200).json(products);
 });
+
+Productsrouters.get('/api/products', async (req,  res) => {
+    const { page = 1, limit = 2 } = req.query;
+    const opts = { page, limit };
+    const criteria = {};
+    const result = await productsModels.paginate(criteria, opts);
+    res.status(200).json(buildResponse(result));
+});
+
+const buildResponse = (data) => {
+    return {
+        status: 'success',
+        payload: data.docs.map(product => product.toJSON()),
+        totalPages: data.totalPages,
+        prevPage: data.prevPage,
+        nextPage: data.nextPage,
+        page: data.page,
+        hasPrevPage: data.hasPrevPage,
+        hasNextPage: data.hasNextPage,
+        prevLink: data.hasPrevPage ? `http://localhost:8080/products?limit=${data.limit}&page=${data.prevPage}` : '',
+        nextLink: data.hasNextPage ? `http://localhost:8080/products?limit=${data.limit}&page=${data.nextPage}` : '',
+    };
+};
+
+
 
 Productsrouters.get('/products/:_id', async (req, res)=> {
     try {

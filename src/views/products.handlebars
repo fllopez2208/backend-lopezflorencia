@@ -1,3 +1,4 @@
+<article>
 <h1>Productos</h1>
 <table id="main">
     <tr>
@@ -18,10 +19,11 @@
         <td>{{this.stock}}</td>
         <td> 
             <form action="/api/carts" method="POST">
-                <input type="hidden" name="productId" value="{{this._id}}">
+                <input type="hidden" name="product" value="{{this._id}}">
                 <input type="submit" value="Agregar al carrito">
             </form>
         </td>
     </tr>
     {{/each}}
 </table>
+</article>

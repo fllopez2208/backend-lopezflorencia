@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+const URI = 'mongodb+srv://fllopez2208:Olivia2023@cluster0.445wowt.mongodb.net/ecommerce';
+
 
 export const init = async () => {
     try {
-        const URI = 'mongodb+srv://fllopez2208:Olivia2023@cluster0.445wowt.mongodb.net/products';
         await mongoose.connect(URI);
         console.log('Database connected');
     } catch (error) {

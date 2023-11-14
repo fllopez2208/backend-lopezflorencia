@@ -1,0 +1,30 @@
+<article>
+    <h1>Carrito:</h1>
+    {{#each carts}}
+        <table id="main">
+            <tr>
+                <th>ID del Carrito:</th>
+                <th>Id del producto:</th>
+                <th>Cantidad:</th> 
+            </tr>
+            <tr> 
+                <td>{{this._id}}</td>
+                <td>{{this.productId}}</td>
+                <td>{{this.quantity}}</td>
+                <td>
+                    <form action="/api/carts/{{this._id}}/{{this.productId}}" method="PUT">
+                        <input type="number" name="quantity" value="{{this.quantity}}" min="1">
+                        <input type="submit" value="Actualizar Cantidad">
+                    </form>
+                    <form action="/api/carts/{{this._id}}" method="DELETE">
+                        <input type="submit" value="Eliminar Producto">
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <form action="/api/carts/{{this._id}}" method="DELETE">
+            <input type="submit" value="Eliminar Carrito">
+        </form>
+    {{/each}}
+</article>
+

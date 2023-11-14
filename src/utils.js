@@ -12,4 +12,4 @@ export class Exception extends Error {
         super(message);
         this.statusCode = status;
     }
-}
+};
