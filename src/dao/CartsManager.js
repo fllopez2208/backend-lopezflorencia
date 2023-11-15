@@ -4,7 +4,7 @@ import { Exception } from '../utils.js';
 class CartsManager {
 
     static getAllCarts() {
-        return CartModel.find().populate('products.product'); // Cambiado de 'Product' a 'products'
+        return CartModel.find().populate('products.product'); 
     }
     
 
@@ -81,8 +81,8 @@ class CartsManager {
         return cart;
     }
 
-    static async removeAllFromCart(cartId) {
-        const cart = await CartModel.findById(cartId);
+    static async removeAllFromCart(_id) {
+        const cart = await CartModel.findById(_id);
         if (!cart) {
             throw new Exception('No existe el carrito', 404);
         }
@@ -93,8 +93,19 @@ class CartsManager {
         console.log('Todos los productos eliminados del carrito correctamente.');
     }
 
+    static async getCartDetail(_id) {
+        try {
+            const cartDetail = await CartModel.findById(_id).populate('products.product');
+            if (!cartDetail) {
+                throw new Exception('No existe el carrito', 404);
+            }
+            return cartDetail;
+        } catch (error) {
+            console.error('Error al obtener el detalle del carrito:', error.message);
+            throw error; 
+    }
 
-
+    }
 }
 
-export default CartsManager;
+export default CartsManager
