@@ -3,30 +3,36 @@ import { Exception } from '../utils.js';
 
 class CartsManager {
 
-    static async getAllCarts() {
-        const carts = await CartModel.find().populate('products.product');
-        return carts.map(cart => ({
-            _id: cart._id,
-            products: cart.products.map(productInCart => ({
-                productId: productInCart.product._id,
-                title: productInCart.product.title,
-                description: productInCart.product.description,
-                price: productInCart.product.price,
-                code: productInCart.product.code,
-                stock: productInCart.product.stock,
-                quantity: productInCart.quantity,
-            })),
-        }));
+    static getAllCarts() {
+        return CartModel.find().populate('products.product'); // Cambiado de 'Product' a 'products'
     }
     
+
     
-
-
     static async addToCart(cartData) {
-        const cart = await CartModel.create(cartData);
-        console.log('Producto agregado al carrito correctamente');
-        return cart;
+        const { _id, product } = cartData;
+    
+        try {
+            const existingCart = await CartModel.findById(_id);
+    
+            if (existingCart) {
+                existingCart.products.push({ product });
+                await existingCart.save();
+                console.log('Producto agregado al carrito existente correctamente');
+                return existingCart;
+            } else {
+                const newCart = await CartModel.create(cartData);
+                console.log('Producto agregado a un nuevo carrito correctamente');
+                return newCart;
+            }
+        } catch (error) {
+            console.error('Error al agregar producto al carrito:', error.message);
+            throw error;
+        }
     }
+    
+    
+
 
     static async deleteProductFromCart(_id, productId) {
         const cart = await CartModel.findById(_id);
@@ -34,11 +40,15 @@ class CartsManager {
             throw new Exception('No existe el carrito', 404);
         }
 
-        cart.products = cart.products.filter(productInCart => productInCart.toString() !== productId);
+        const productIndex = cart.products.findIndex(p => p.product.toString() === productId);
+        if (productIndex === -1) {
+            throw new Exception('No existe el producto en el carrito', 404);
+        }
 
+        cart.products.splice(productIndex, 1);
         await cart.save();
+
         console.log('Producto eliminado del carrito correctamente.');
-        return cart;
     }
 
     static async updateCart(_id, products) {
@@ -71,43 +81,16 @@ class CartsManager {
         return cart;
     }
 
-    static async deleteCart(_id) {
-        console.log('Deleting cart with _id:', _id);
-        const cart = await CartModel.findByIdAndDelete(_id);
+    static async removeAllFromCart(cartId) {
+        const cart = await CartModel.findById(cartId);
         if (!cart) {
             throw new Exception('No existe el carrito', 404);
         }
-        console.log('Carrito eliminado correctamente.');
-        return cart;
-    }
 
-    
+        cart.products = [];
+        await cart.save();
 
-    
-
-    static async getCartProductDetails(_id) {
-            const cart = await CartModel.findById(_id).populate({
-                path: 'products.product',
-                model: 'products',
-            });
-            if (!cart) {
-                throw new Exception('No existe el carrito', 404);
-            }
-
-            const cartDetails = {
-                _id: cart._id,
-                products: cart.products.map(productInCart => ({
-                    productId: productInCart.product._id,
-                    title: productInCart.product.title,
-                    description: productInCart.product.description,
-                    price: productInCart.product.price,
-                    code: productInCart.product.code,
-                    stock: productInCart.product.stock,
-                    quantity: productInCart.quantity,
-                })),
-            };
-
-            return cartDetails;
+        console.log('Todos los productos eliminados del carrito correctamente.');
     }
 
 

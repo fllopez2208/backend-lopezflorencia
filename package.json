@@ -17,6 +17,7 @@
   "author": "Florencia Lopez",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
     "handlebars": "^4.7.8",

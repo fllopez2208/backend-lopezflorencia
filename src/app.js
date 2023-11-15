@@ -6,7 +6,7 @@ import ProductsRouters from './routers/api/Products.router.js';
 import ProductsViewsrouters from './routers/views/products.routers.js';
 import CartsRouter from './routers/api/Carts.router.js';
 import CartsViewsrouters from './routers/views/carts.router.js';
-
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
