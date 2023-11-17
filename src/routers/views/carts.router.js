@@ -4,7 +4,7 @@ import CartsManager from "../../dao/CartsManager.js";
 const CartsViewsrouters = Router();
 
 CartsViewsrouters.get('/carts', async (req, res) => {
-    let carts = await CartsManager.getAllCarts();
+    const carts = await CartsManager.getAllCarts();
     res.render('carts', { carts });
 });
 

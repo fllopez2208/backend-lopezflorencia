@@ -22,40 +22,40 @@ CartsRouter.post('/carts', async (req, res) => {
     }
 });
 
-CartsRouter.get('/carts/:_id', async (req, res) => {
+CartsRouter.get('/carts/:cid', async (req, res) => {
     try {
-        const { params: { _id } } = req;
-        const cart = await CartsManager.getCartDetail(_id);
+        const { params: { cid } } = req;
+        const cart = await CartsManager.getCartDetail(cid);
         res.status(200).json(cart);
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }
 });
 
-CartsRouter.delete('/carts/:_id/products/:productId', async (req, res) => {
+CartsRouter.delete('/carts/:cid/products/:productId', async (req, res) => {
     try {
-        const { params: { _id, productId } } = req;
-        const cart = await CartsManager.deleteProductFromCart(_id, productId);
+        const { params: { cid, productId } } = req;
+        const cart = await CartsManager.deleteProductFromCart(cid, productId);
         res.status(200).json(cart);
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }
 });
 
-CartsRouter.put('/carts/:_id', async (req, res) => {
+CartsRouter.put('/carts/:cid', async (req, res) => {
     try {
-        const { params: { _id }, body } = req;
-        const cart = await CartsManager.updateCart(_id, body.products);
+        const { params: { cid }, body } = req;
+        const cart = await CartsManager.updateCart(cid, body.products);
         res.status(204).end();
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }
 });
 
-CartsRouter.put('/carts/:_id/products/:productId', async (req, res) => {
+CartsRouter.put('/carts/:cid/products/:pid', async (req, res) => {
     try {
-        const { params: { _id, productId }, body } = req;
-        const cart = await CartsManager.updateProductQuantity(_id, productId, body.quantity);
+        const { params: { cid, productId }, body } = req;
+        const cart = await CartsManager.updateProductQuantity(cid, productId, body.quantity);
         res.status(204).end();
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });

@@ -1,35 +1,34 @@
 <article>
-{{#each carts}}
-    <h1>Carrito: {{this._id}}</h1>
-    
-    <table id="main">
-        <tr>
-            <th>ID del Carrito:</th>
-            <th>ID del Producto:</th>
-            <th>Cantidad:</th> 
-            <th>Acciones</th>
-        </tr>
+    {{#each carts}}
+        <h1>Carrito: {{this._id}}</h1>
         
-        
-        <tr> 
-            <td>{{this._id}}</td>
-            <td>{{this.productId}}</td>
-            <td>{{this.quantity}}</td>
-            <td>
-                <form action="/api/carts/{{this._id}}/{{this.productId}}" method="PUT">
-                    <input type="number" name="quantity" value="{{this.quantity}}" min="1">
-                    <input type="submit" value="Actualizar Cantidad">
-                </form>
-                <form action="/api/carts/{{this._id}}/{{this.productId}}" method="DELETE">
-                    <input type="submit" value="Eliminar Producto">
-                </form>
-            </td>
-        </tr>
-      
-    </table>
-    <form action="/api/carts/{{this._id}}" method="DELETE">
-        <input type="submit" value="Eliminar Carrito">
-    </form>
-
-{{/each}}
+        <table id="main">
+            <tr>
+                <th>ID del Carrito:</th>
+                <th>ID del Producto:</th>
+                <th>Cantidad:</th> 
+                <th>Acciones</th>
+            </tr>
+            
+            {{#each this.products}}
+                <tr> 
+                    <td>{{../_id}}</td>
+                    <td>{{this.product._id}}</td>
+                    <td>{{this.quantity}}</td>
+                    <td>
+                        <form action="/api/carts/{{../_id}}/{{this.product._id}}" method="PUT">
+                            <input type="number" name="quantity" value="{{this.quantity}}" min="1">
+                            <input type="submit" value="Actualizar Cantidad">
+                        </form>
+                        <form action="/api/carts/{{../_id}}/{{this.product._id}}" method="DELETE">
+                            <input type="submit" value="Eliminar Producto">
+                        </form>
+                    </td>
+                </tr>
+            {{/each}}
+        </table>
+        <form action="/api/carts/{{this._id}}" method="DELETE">
+            <input type="submit" value="Eliminar Carrito">
+        </form>
+    {{/each}}
 </article>
