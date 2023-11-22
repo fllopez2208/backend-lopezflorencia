@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-const URI = 'mongodb+srv://fllopez2208:Olivia2023@cluster0.445wowt.mongodb.net/ecommerce';
+
+export const URI = 'mongodb+srv://fllopez2208:Olivia2023@cluster0.445wowt.mongodb.net/ecommerce';
 
 
 export const init = async () => {

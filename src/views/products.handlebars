@@ -18,7 +18,7 @@
         <td>{{this.code}}</td>
         <td>{{this.stock}}</td>
         <td> 
-            <form action="/api/carts" method="POST">
+            <form action="/api/carts" method="post">
                 <input type="hidden" name="_id" value="{{this._id}}">
                 <input type="hidden" name="productId" value="{{this._id}}">
                 <input type="submit" value="Agregar al carrito">
