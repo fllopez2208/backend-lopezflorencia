@@ -11,7 +11,7 @@ Productsrouters.get('/products', async (req, res)=> {
     res.status(200).json(products);
 });
 
-Productsrouters.get('/api/products', async (req,  res) => {
+Productsrouters.get('/products', async (req,  res) => {
     const { page = 1, limit = 2, sort } = req.query;
     const opts = { page, limit, sort: { price: sort || 'asc' } };
     const criteria = {};

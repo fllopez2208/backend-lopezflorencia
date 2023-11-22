@@ -67,10 +67,10 @@ app.get('/delete-cookie', (req, res) => {
 
 
 
-// app.use('/api', ProductsRouters);
-// app.use('/', ProductsViewsrouters);
-// app.use('/api', CartsRouter);
-// app.use('/', CartsViewsrouters);
+app.use('/api', ProductsRouters);
+app.use('/', ProductsViewsrouters);
+app.use('/api', CartsRouter);
+app.use('/', CartsViewsrouters);
 app.use('/', indexRouter);
 app.use('/api', sessionsRouter);
 

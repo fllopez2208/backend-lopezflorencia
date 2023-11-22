@@ -9,40 +9,28 @@ class CartsManager {
     }
     
     
-
     static async addToCart(cartData) {
-        const { _id, productId } = cartData;
+        const { _id } = cartData;
     
         try {
-            // Buscar el producto por el _id
-            const product = await productsModels.findById(productId);
+            const product = await productsModels.findById(_id);
     
             if (!product) {
                 throw new Exception('No existe el producto', 404);
             }
     
-            // Buscar un carrito existente por _id
-            const existingCart = await CartModel.findById(_id);
+            const newCart = await CartModel.create({
+                products: [{ product: product._id, quantity: 1 }]
+            });
     
-            if (existingCart) {
-                // Si el carrito ya existe, simplemente agrega el nuevo producto
-                existingCart.products.push({ product: product._id, quantity: 1 });
-                await existingCart.save();
-                console.log('Producto agregado al carrito existente correctamente');
-                return existingCart;
-            } else {
-                // Si el carrito no existe, crea uno nuevo
-                const newCart = await CartModel.create({
-                    products: [{ product: product._id, quantity: 1 }]
-                });
-                console.log('Producto agregado a un nuevo carrito correctamente');
-                return newCart;
-            }
+            console.log('Producto agregado a un nuevo carrito correctamente');
+            return newCart;
         } catch (error) {
             console.error('Error al agregar producto al carrito:', error.message);
             throw error;
         }
     }
+    
     
     
 

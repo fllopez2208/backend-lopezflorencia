@@ -1,13 +1,13 @@
 <article>
-<h1>Productos</h1>
-<table id="main">
+<header><h1>Productos</h1></header>
+<table class="container">
     <tr>
         <th>ID:</th>
-       <th>Titulo:</th>
-       <th>Descripción:</th> 
-       <th>Precio:</th> 
-       <th>Código:</th>  
-       <th>Stock:</th> 
+        <th>Titulo:</th>
+        <th>Descripción:</th> 
+        <th>Precio:</th> 
+        <th>Código:</th>  
+        <th>Stock:</th> 
     </tr>
     {{#each products}}
     <tr> 
@@ -20,7 +20,6 @@
         <td> 
             <form action="/api/carts" method="post">
                 <input type="hidden" name="_id" value="{{this._id}}">
-                <input type="hidden" name="productId" value="{{this._id}}">
                 <input type="submit" value="Agregar al carrito">
             </form>
         </td>

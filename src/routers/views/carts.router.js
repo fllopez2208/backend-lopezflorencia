@@ -5,7 +5,7 @@ const CartsViewsrouters = Router();
 
 CartsViewsrouters.get('/carts', async (req, res) => {
     const carts = await CartsManager.getAllCarts();
-    res.render('Cart', { carts });
+    res.render('carts', { carts });
 });
 
 
