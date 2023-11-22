@@ -4,14 +4,17 @@ import expressSession from 'express-session';
 import FileStore from 'session-file-store';
 import __dirname from './utils.js';
 import handlebars from 'express-handlebars';
+
 import ProductsRouters from './routers/api/Products.router.js';
 import ProductsViewsrouters from './routers/views/products.routers.js';
 import CartsRouter from './routers/api/Carts.router.js';
 import CartsViewsrouters from './routers/views/carts.router.js';
+
 import cookieParser from 'cookie-parser';
 import MongoStore from 'connect-mongo';
 import { URI } from './db/mongodb.js';
-
+import indexRouter from './routers/index.router.js';
+import sessionsRouter from './routers/sessions.router.js';
 
 const app = express();
 
@@ -61,81 +64,15 @@ app.get('/delete-cookie', (req, res) => {
 
 //Routers:
 
-// app.get('/', (req, res) => {
-     
-//     if(!req.session.counter) {
-//         req.session.counter = 1;
-//         res.send('Bienvenido!');
-//     } else {
-//         req.session.counter++;
-//         res.send( `Se ha visitado el sitio ${req.session.counter} veces`);
-//     }
-// });
 
-app.get('/profile', (req,res) => {
-    if(!req.session.user){
-        return res.redirect('/login');
-    }
-    res.render('profile', {title: 'Perfil', user: req.session.user});
-});
 
-app.get('/login', (req,res) => {
-    if(req.session.user){
-        return res.redirect('/profile');
-    }
-    res.render('login', {title: 'Login'});
-});
 
-app.get('/register', (req,res) => {
-    if(req.session.user){
-        return res.redirect('/profile');
-    }
-    res.render('register', {title: 'Register'});
-});
-
-// const userTest = {
-//     username: 'flopez',
-//     password: '1234',
-// };
-
-// app.get('/login', (req, res) => {
-//     const {username, password} = req.query;
-//     if(username === userTest.username && password === userTest.password){
-//         req.session.user = username;
-//         req.session.admin = true;
-//         res.send('Inicio de sesion exitoso. ')
-//     } else {
-//         res.send('Usuario o contraseña incorrectos');
-//     }
-// });
-
-// const auth = (req, res, next) => {
-//     if(req.session.user && req.session.admin){
-//         next();
-//     } else {
-//         res.status(401).send('No tienes permiso para acceder.')
-//     }
-// };
-
-// app.get('/private', auth, (req, res) =>{
-//     res.send('Te damos la bienvenida a la seccion privada.')
-// });
- 
-// app.get('/logout', (req, res) => {
-//     req.session.destroy((error) => {
-//         if(error) {
-//             res.send('Ha ocurrido un error');
-//         } else {
-//             res.send('Sesión cerrada');
-//         }
-//     })
-// });
-
-app.use('/api', ProductsRouters);
-app.use('/', ProductsViewsrouters);
-app.use('/api', CartsRouter);
-app.use('/', CartsViewsrouters);
-
+// app.use('/api', ProductsRouters);
+// app.use('/', ProductsViewsrouters);
+// app.use('/api', CartsRouter);
+// app.use('/', CartsViewsrouters);
+app.use('/', indexRouter);
+app.use('/api', sessionsRouter);
 
 app.use((error, req, res, next) => {
     const message = `Ha ocurrido un error inesperado: ${error.message}`
