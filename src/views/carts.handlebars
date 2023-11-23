@@ -1,5 +1,6 @@
 <article>
-    <h1>Carrito: {{cart._id}}</h1>
+{{#each carts}}
+    <h1>Carrito: {{this._id}}</h1>
     
     <table id="main">
         <tr>
@@ -11,24 +12,24 @@
         
         
         <tr> 
-            <td>{{carts._id}}</td>
-            <td>{{carts.products}}</td>
-            <td>{{carts.products.quantity}}</td>
+            <td>{{this._id}}</td>
+            <td>{{this.product}}</td>
+            <td>{{this.quantity}}</td>
             <td>
-                <form action="/api/carts/{{this._id}}/{{this.products.product}}" method="PUT">
-                    <input type="number" name="quantity" value="{{this.products.quantity}}" min="1">
+                <form action="/api/carts/{{this._id}}/{{this.product}}" method="PUT">
+                    <input type="number" name="quantity" value="{{this.quantity}}" min="1">
                     <input type="submit" value="Actualizar Cantidad">
                 </form>
-                <form action="/api/carts/{{this._id}}/{{this.productId}}" method="DELETE">
+                <form action="/api/carts/{{this._id}}/{{this._Id}}" method="DELETE">
                     <input type="submit" value="Eliminar Producto">
                 </form>
             </td>
         </tr>
       
     </table>
-    <form action="/api/carts/{{carts._id}}" method="DELETE">
+    <form action="/api/carts/{{this._id}}" method="DELETE">
         <input type="submit" value="Eliminar Carrito">
     </form>
 
-
+{{/each}}
 </article>

@@ -5,7 +5,7 @@ const CartsRouter = Router();
 
 CartsRouter.get('/carts', async (req, res) => {
     try {
-        const carts = await CartsManager.getAllCarts(); 
+        const carts = await CartsManager.get(); 
         res.status(200).json(carts);
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });

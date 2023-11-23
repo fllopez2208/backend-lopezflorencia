@@ -4,8 +4,12 @@ import productsModels from "../models/products.models.js";
 
 class CartsManager {
 
-    static getAllCarts() {
-        return CartModel.find(); 
+    static get (query = {}) {
+        const criteria = {};
+        if(query.code)  {
+            criteria.code = query.code;
+        }
+        return CartModel.find(criteria);
     }
     
     
