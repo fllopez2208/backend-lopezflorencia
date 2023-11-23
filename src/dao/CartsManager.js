@@ -23,11 +23,9 @@ class CartsManager {
                 throw new Exception('No existe el producto', 404);
             }
     
-            const newCart = await CartModel.create({
-                products: [{ product: product._id, quantity: 1 }]
-            });
+            const newCart = await CartModel.create({ product: product._id, quantity: 1 });
     
-            console.log('Producto agregado a un nuevo carrito correctamente');
+            console.log('Producto agregado al carrito correctamente');
             return newCart;
         } catch (error) {
             console.error('Error al agregar producto al carrito:', error.message);
@@ -35,77 +33,73 @@ class CartsManager {
         }
     }
     
-    
-    
+     
 
 
 
-    
-
-
-
-    static async deleteProductFromCart(cid, productId) {
-        const cart = await CartModel.findById(cid);
+    static async deleteProductFromCart(_id, productId) {
+        const cart = await CartModel.findById(_id);
         if (!cart) {
             throw new Exception('No existe el carrito', 404);
         }
 
-        const productIndex = cart.products.findIndex(p => p.product.toString() === productId);
+        const productIndex = cart.product.findIndex(p => p.product.toString() === productId);
         if (productIndex === -1) {
             throw new Exception('No existe el producto en el carrito', 404);
         }
 
-        cart.products.splice(productIndex, 1);
+        cart.product.splice(productIndex, 1);
         await cart.save();
 
         console.log('Producto eliminado del carrito correctamente.');
     }
 
-    static async updateCart(cid, products) {
-        const cart = await CartModel.findById(cid);
+    static async updateCart(_id, product) {
+        const cart = await CartModel.findById(_id);
         if (!cart) {
             throw new Exception('No existe el carrito', 404);
         }
 
-        cart.products = products;
+        cart.product = product._id;
 
         await cart.save();
         console.log('Carrito actualizado con éxito.');
         return cart;
     }
 
-    static async updateProductQuantity(cid, productId, quantity) {
-        const cart = await CartModel.findById(cid);
+    static async updateProductQuantity(_id, productId, quantity) {
+        const cart = await CartModel.findById(_id);
         if (!cart) {
             throw new Exception('No existe el carrito', 404);
         }
-
-        const product = cart.products.find(p => p.product.toString() === productId);
-
-        if (product) {
-            product.quantity = quantity;
+    
+        const productToUpdate = cart.product.find(p => p.product.toString() === productId);
+    
+        if (productToUpdate) {
+            productToUpdate.quantity = quantity;
         }
-
+    
         await cart.save();
         console.log('Cantidad de producto actualizada en el carrito.');
         return cart;
     }
+    
 
-    static async removeAllFromCart(cid) {
-        const cart = await CartModel.findById(cid);
+    static async removeAllFromCart(_id) {
+        const cart = await CartModel.findById(_id);
         if (!cart) {
             throw new Exception('No existe el carrito', 404);
         }
 
-        cart.products = [];
+        cart.product = [];
         await cart.save();
 
         console.log('Todos los productos eliminados del carrito correctamente.');
     }
 
-    static async getCartDetail(cid) {
+    static async getCartDetail(_id) {
         try {
-            const cartDetail = await CartModel.findById(cid).populate('products.product');
+            const cartDetail = await CartModel.findById(_id);
             if (!cartDetail) {
                 throw new Exception('No existe el carrito', 404);
             }
