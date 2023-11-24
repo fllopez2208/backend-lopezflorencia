@@ -28,4 +28,8 @@ router.get('/register', publicRouters, (req, res) => {
   res.render('register', { title: 'Register' });
 });
 
+router.get('/recovery-password', publicRouters, (req, res) => {
+  res.render('recovery-password', { title: 'Recuperar contraseña' });
+});
+
 export default router;

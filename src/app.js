@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import passport from 'passport';
 import expressSession from 'express-session';
 import FileStore from 'session-file-store';
 import __dirname from './utils.js';
@@ -15,6 +16,9 @@ import MongoStore from 'connect-mongo';
 import { URI } from './db/mongodb.js';
 import indexRouter from './routers/index.router.js';
 import sessionsRouter from './routers/sessions.router.js';
+import { init as initPassportConfig } from './config/passport.config.js';
+
+
 
 const app = express();
 
@@ -35,7 +39,7 @@ app.use(expressSession({
     store: MongoStore.create({
         mongoUrl: URI,
         mongoOptions:{},  
-        ttl:15,
+        ttl:150,
     }),
     
 }));
@@ -43,6 +47,12 @@ app.use(expressSession({
 app.engine('handlebars', handlebars.engine());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
+
+
+initPassportConfig();
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 //set-cookie
 app.get('/set-cookie', (req, res) => {
