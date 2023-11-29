@@ -37,13 +37,13 @@ class CartsManager {
 
 
 
-    static async deleteProductFromCart(_id, productId) {
-        const cart = await CartModel.findById(_id);
+    static async deleteProductFromCart(cid, pid) {
+        const cart = await CartModel.findById(cid);
         if (!cart) {
             throw new Exception('No existe el carrito', 404);
         }
 
-        const productIndex = cart.product.findIndex(p => p.product.toString() === productId);
+        const productIndex = cart.product.findIndex(p => p.product.toString() === pid);
         if (productIndex === -1) {
             throw new Exception('No existe el producto en el carrito', 404);
         }
@@ -54,8 +54,8 @@ class CartsManager {
         console.log('Producto eliminado del carrito correctamente.');
     }
 
-    static async updateCart(_id, product) {
-        const cart = await CartModel.findById(_id);
+    static async updateCart(cid, product) {
+        const cart = await CartModel.findById(cid);
         if (!cart) {
             throw new Exception('No existe el carrito', 404);
         }
@@ -67,13 +67,13 @@ class CartsManager {
         return cart;
     }
 
-    static async updateProductQuantity(_id, productId, quantity) {
-        const cart = await CartModel.findById(_id);
+    static async updateProductQuantity(cid, pid, quantity) {
+        const cart = await CartModel.findById(cid);
         if (!cart) {
             throw new Exception('No existe el carrito', 404);
         }
     
-        const productToUpdate = cart.product.find(p => p.product.toString() === productId);
+        const productToUpdate = cart.product.find(p => p.product.toString() === pid);
     
         if (productToUpdate) {
             productToUpdate.quantity = quantity;
@@ -85,8 +85,8 @@ class CartsManager {
     }
     
 
-    static async removeAllFromCart(_id) {
-        const cart = await CartModel.findById(_id);
+    static async removeAllFromCart(cid) {
+        const cart = await CartModel.findById(cid);
         if (!cart) {
             throw new Exception('No existe el carrito', 404);
         }
@@ -97,9 +97,9 @@ class CartsManager {
         console.log('Todos los productos eliminados del carrito correctamente.');
     }
 
-    static async getCartDetail(_id) {
+    static async getCartDetail(cid) {
         try {
-            const cartDetail = await CartModel.findById(_id);
+            const cartDetail = await CartModel.findById(cid);
             if (!cartDetail) {
                 throw new Exception('No existe el carrito', 404);
             }

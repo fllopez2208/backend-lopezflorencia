@@ -32,10 +32,10 @@ CartsRouter.get('/carts/:cid', async (req, res) => {
     }
 });
 
-CartsRouter.delete('/carts/:cid/products/:productId', async (req, res) => {
+CartsRouter.delete('/carts/:cid/products/:pid', async (req, res) => {
     try {
-        const { params: { cid, productId } } = req;
-        const cart = await CartsManager.deleteProductFromCart(cid, productId);
+        const { params: { cid, pid } } = req;
+        const cart = await CartsManager.deleteProductFromCart(cid, pid);
         res.status(200).json(cart);
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
@@ -54,8 +54,8 @@ CartsRouter.put('/carts/:cid', async (req, res) => {
 
 CartsRouter.put('/carts/:cid/products/:pid', async (req, res) => {
     try {
-        const { params: { cid, productId }, body } = req;
-        const cart = await CartsManager.updateProductQuantity(cid, productId, body.quantity);
+        const { params: { cid, pid }, body } = req;
+        const cart = await CartsManager.updateProductQuantity(cid, pid, body.quantity);
         res.status(204).end();
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
