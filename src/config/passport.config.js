@@ -50,24 +50,23 @@ export const init = () => {
 
   passport.use('github', new GitHubStrategy(githubOpts, async(accessToken, refreshToken, profile, done) => {
     console.log('profile', profile);
-    const email = profile._json.email;
-    let user = await UserModel.findOne( { email } );
+    let email = profile._json.email;
+    let user = await UserModel.findOne({ email });
     if (user) {
-        return done(null, user);
+      return done(null, user);
     }
     user = {
-        first_name: profile._json.name,
-        last_name: '',
-        email,
-        age: 18,
-        password: '',
-        provider: 'Github',
+      first_name: profile._json.name,
+      last_name: '',
+      email,
+      age: 18,
+      password: '',
+      provider: 'Github',
     };
 
     const newUser = await UserModel.create(user);
     done(null, newUser);
-
-}));
+  }));
 
   passport.serializeUser((user, done) => {
     done(null, user._id);
