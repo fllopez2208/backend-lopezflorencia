@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { dirname, resolve } from 'path';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import userModels from './models/user.models.js';
@@ -22,29 +22,53 @@ export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSalt
 
 export const isValidPassword = (password, user) => bcrypt.compareSync(password, user.password);
 
-export const tokenGenerator = () => {
-    const { first_name, last_name, email } = user;
+export const tokenGenerator = (user) => {
+    const { _id, first_name, last_name, email, role } = user;
     const payload = {
-        id: _id,
-        first_name,
-        last_name,
-        email,
+      id: _id,
+      first_name,
+      last_name,
+      email,
+      role
     };
-    return jwt.sign(payload, JWT_SECRET, { expiresIn: '1m'});
+    return jwt.sign(payload, JWT_SECRET, { expiresIn: '1m' });
+}
+
+export const verifyToken = (token) => {
+    return new Promise((resolve, reject) => {
+        jwt.verifyToken(token, JWT_SECRET, (error, payload) => {
+            if (error) {
+                 return reject(error);
+            }
+            resolve(payload);
+        });
+    });
 }
 
 export const jwtAuth = (req, res, next) => {
     const { authorization: token } = req.headers;
-    if(!token){
-        res.status(401).json({ message: 'unauthorized'});
+    if (!token) {
+      return res.status(401).json({ message: 'unauthorized' });
     }
-
     jwt.verify(token, JWT_SECRET, async (error, payload) => {
-        if (error) {
-            return res.status(403).json({ message: 'no authorized'});
-        }
-
-        req.user = await userModels.findById(payload.id);
-        next();
+      if (error) {
+        return res.status(403).json({ message: 'No authorized' });
+      }
+      req.user = await userModels.findById(payload.id);
+      next();
     });
 }
+
+
+export const authorizationMiddleware = (role) => (req, res, next) => {
+    if(!req.user){
+        return res.status(401).json({message: 'unauthorized'});
+    }
+
+    const {role: userRole } = req.user;
+    if(userRole ===! role){
+        return res.status(403).json({ message: 'Forbidden'})
+    }
+    next();
+
+}   

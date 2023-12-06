@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import userModels from '../models/user.models.js';
-import { createHash, isValidPassword, tokenGenerator } from '../utils.js';
+import { createHash, isValidPassword, tokenGenerator, jwtAuth } from '../utils.js';
 
 const router = Router();
 
@@ -11,14 +11,31 @@ router.post('/login1', async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: 'Correo o contraseña invalidos' });
     }
-   const isPassValid = isValidPassword(password, user);
-    if(!isPassValid){
-      return res.status(401).json({message: 'Correo o contraseña invalidos.'});
+    const isPassValid = isValidPassword(password, user);
+    if (!isPassValid) {
+      return res.status(401).json({ message: 'Correo o contraseña invalidos 😨' });
     }
-   
-   const token = tokenGenerator(user);
-   res.status(200).json({ access_token: token });
-  })
+    const token = tokenGenerator(user);
+    res.status(200).json({ access_token: token });
+  });
+  
+  router.post('/register1', async (req, res) => {
+    const { body } = req;
+    let user = await userModels.findOne({ email: body.email });
+    if (user) {
+      return res.status(400).json({ message: `Ya existe un usuario con el correo ${body.email} 😨.` });
+    }
+    user = await userModels.create({
+      ...body,
+      password: createHash(body.password),
+    });
+    const token = tokenGenerator(user);
+    res.status(201).json({ access_token: token });
+  });
+  
+  router.get('/current1', jwtAuth, (req, res) => {
+    res.status(200).json(req.user);
+  });
 
 
 

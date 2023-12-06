@@ -5,12 +5,10 @@ import expressSession from 'express-session';
 import FileStore from 'session-file-store';
 import __dirname from './utils.js';
 import handlebars from 'express-handlebars';
-
 import ProductsRouters from './routers/api/Products.router.js';
 import ProductsViewsrouters from './routers/views/products.routers.js';
 import CartsRouter from './routers/api/Carts.router.js';
 import CartsViewsrouters from './routers/views/carts.router.js';
-
 import cookieParser from 'cookie-parser';
 import MongoStore from 'connect-mongo';
 import { URI } from './db/mongodb.js';
@@ -51,7 +49,7 @@ app.set('view engine', 'handlebars');
 
 initPassportConfig();
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session()); 
 
 
 //set-cookie
